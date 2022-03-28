@@ -11,21 +11,8 @@ async function getPosts() {
     posts.sort(function(a: IPost, b: IPost){
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     });
-    // var pagedPostArray = [];
-    // var pageSize = 5;
-
-    // for (var i = 0; i < posts.length; i+pageSize) {
-    //     var postArrayItem = posts.splice(i, i+pageSize);
-    //     pagedPostArray.push(postArrayItem);
-    // }
-
-    // console.log(pagedPostArray);
-
-    // ************* Making sure type is correct 
-    // assertIsCharacter(character);
 
     return posts;
-    // return pagedPostArray;
 }
 
 export { getPosts }

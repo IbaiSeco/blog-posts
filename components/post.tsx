@@ -1,23 +1,22 @@
 import React from 'react';
 import { FC } from 'react';
 
-import { IPost } from '../libs/interfaces/IPost'
+import styled from 'styled-components';
+import AvatarItem from './avatar';
 
+// Importing application components
+import Comment from './comment';
+import { IPost } from '../libs/interfaces/IPost'
 import { DateFormat } from '../libs/calendarLib';
 
-import styled from 'styled-components';
-import styles from '../styles/Home.module.css';
-
-import AvatarItem from './avatar';
-import Comment from './comment';
-// import Avatar from 'react-avatar';
-
+// Importing react-boostrap components
 import Stack from 'react-bootstrap/Stack';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
+// styled-components
 const Card = styled.div`
     background: #fff;
     border-radius: 10px;
@@ -34,13 +33,6 @@ const TitleSection = styled.div`
 
 const CommentSection = styled.div`
     padding: 15px
-`
-
-const CommentContainer = styled.div`
-    background: #fff;
-    border-radius: 10px;
-    border: 1px solid #DFE0EB;
-    padding: 10px;
 `
 
 const Divider = styled.div`
@@ -60,45 +52,44 @@ const Post: FC<IPost> = ({ title, description, createdAt, updatedAt, id, authors
 
     return <>
         <Card>
-            {/* <div className="card"> */}
-                <TitleSection>
-                    <Container fluid>
-                        <Row>
-                            <Col md="auto">
-                                <Stack direction="horizontal" gap={1}>
-                                    {authors.map((object) =>
-                                        <div key={object.id}>
-                                            <div>
-                                                <AvatarItem 
-                                                    name={object.name}
-                                                    avatar={object.avatar}
-                                                    updatedAt={object.updatedAt}
-                                                    id={object.id}
-                                                    postId={object.postId}
-                                                    createdAt={object.createdAt}
-                                                />
-                                            </div>
+            <TitleSection>
+                <Container fluid>
+                    <Row>
+                        <Col md="auto">
+                            <Stack direction="horizontal" gap={1}>
+                                {authors.map((object) =>
+                                    <div key={object.id}>
+                                        <div>
+                                            <AvatarItem 
+                                                name={object.name}
+                                                avatar={object.avatar}
+                                                updatedAt={object.updatedAt}
+                                                id={object.id}
+                                                postId={object.postId}
+                                                createdAt={object.createdAt}
+                                            />
                                         </div>
-                                    )}  
-                                </Stack>  
-                            </Col>
-                            <Col>
-                                <h2>{ title }</h2>
-                            </Col>
-                            <Col>
-                                <div style={{textAlign: "right"}}>
-                                    <p>{ DateFormat({date: createdAt}) }</p>
-                                    {updatedAt && (
-                                        <p style={{fontStyle: "italic", fontSize: "12px", marginTop: "-15px"}}>Updated: { DateFormat({date: updatedAt}) }</p>
-                                    )}
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
-                    <p style={{color: "#AA9D9D", fontSize: "18px"}}>
-                        { description }
-                    </p>
-                </TitleSection>
+                                    </div>
+                                )}  
+                            </Stack>  
+                        </Col>
+                        <Col>
+                            <h2>{ title }</h2>
+                        </Col>
+                        <Col>
+                            <div style={{textAlign: "right"}}>
+                                <p>{ DateFormat({date: createdAt}) }</p>
+                                {updatedAt && (
+                                    <p style={{fontStyle: "italic", fontSize: "12px", marginTop: "-15px"}}>Updated: { DateFormat({date: updatedAt}) }</p>
+                                )}
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+                <p style={{color: "#AA9D9D", fontSize: "18px"}}>
+                    { description }
+                </p>
+            </TitleSection>
                 {comments.length > 0 && (
                     <div>
                         <Divider />
@@ -130,8 +121,6 @@ const Post: FC<IPost> = ({ title, description, createdAt, updatedAt, id, authors
                         </CommentSection>
                     </div>
                 )}
-            {/* </div> */}
-            {/* <Divider /> */}
         </Card>
     </>
 };

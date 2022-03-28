@@ -7,25 +7,25 @@ import Head from 'next/head'
 import { useQuery } from 'react-query'
 
 // Importing react-bootstrap as design-kit
-import Pagination from 'react-bootstrap/Pagination';
 import Spinner from 'react-bootstrap/Spinner';
+import Stack from 'react-bootstrap/Stack';
+import Button from 'react-bootstrap/Button';
 
 // Importing application styles, components, and interfaces
 import styles from '../styles/Home.module.css'
 import Post from '../components/post';
 import { IPost } from '../libs/interfaces/IPost';
+import usePages from '../hooks/usePagination';
 
 // Importing async function that fetches and returns posts
 import { getPosts } from '../libs/apiLib';
 
-// type PostArray = {
-//     posts: IPost[]
-// }
-
+// Main blog post page
 const PostsPage: FC = () => {
 
-    const [page, setPage] = React.useState(0);
+    // Using hooks to access api data and use pagination tools
     const {isLoading, isError, data, error } = useQuery<IPost[], Error>('posts', getPosts);
+    const {resultPosts, nextPosts, prevPosts, isNextAvailable, isPrevAvailable} = usePages(data);
 
     if (isLoading) {
         return <>
@@ -56,9 +56,7 @@ const PostsPage: FC = () => {
             </div>
         </>
     }
-
-    console.log(data);
-
+    
     return <>
         <div className={styles.container}>
             <Head>
@@ -75,8 +73,7 @@ const PostsPage: FC = () => {
             </div>
 
             <div className={styles.pageContent}>
-                {/* {console.log(data)} */}
-                {data?.map(element => (
+                {resultPosts?.map(element => (
                     <div key={element.id} style={{paddingTop: "20px"}}>
                         <Post 
                             title={element.title} 
@@ -89,11 +86,29 @@ const PostsPage: FC = () => {
                         />
                     </div>
                 ))}
-                {/* {console.log(data?.posts)} */}
             </div>
 
-            <div>
-                {/* <Pagination>{pages}</Pagination> */}
+            <div className={styles.footer}>
+                <Stack direction="horizontal" gap={2}>
+                    <div>
+                        <Button 
+                            variant="outline-primary" 
+                            onClick={prevPosts} 
+                            disabled={!isPrevAvailable}
+                        >
+                            Previous
+                        </Button>
+                    </div>
+                    <div>
+                        <Button 
+                            variant="outline-primary" 
+                            onClick={nextPosts} 
+                            disabled={!isNextAvailable}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                </Stack>
             </div>
         </div>
     </>
