@@ -7,7 +7,9 @@ import { DateFormat } from '../libs/calendarLib';
 
 import styled from 'styled-components';
 import styles from '../styles/Home.module.css';
+
 import AvatarItem from './avatar';
+import Comment from './comment';
 // import Avatar from 'react-avatar';
 
 import Stack from 'react-bootstrap/Stack';
@@ -60,7 +62,7 @@ const Post: FC<IPost> = ({ title, description, createdAt, updatedAt, id, authors
         <Card>
             {/* <div className="card"> */}
                 <TitleSection>
-                    <Container>
+                    <Container fluid>
                         <Row>
                             <Col md="auto">
                                 <Stack direction="horizontal" gap={1}>
@@ -113,26 +115,14 @@ const Post: FC<IPost> = ({ title, description, createdAt, updatedAt, id, authors
                                 <div style={{paddingTop: '10px'}}>
                                     {comments.map((comment) => 
                                         <div key={comment.id} style={{paddingTop: "10px"}}>
-                                            <CommentContainer>
-                                                <Container>
-                                                    <Row>
-                                                        <Col>
-                                                            <h5>{ comment.title }</h5>
-                                                        </Col>
-                                                        <Col>
-                                                            <div style={{textAlign: "right"}}>
-                                                                <p style={{fontSize: "14px"}}>{ DateFormat({date: comment.createdAt}) }</p>
-                                                                {comment.updatedAt && (
-                                                                    <p style={{fontStyle: "italic", fontSize: "10px", marginTop: "-15px"}}>Updated: { DateFormat({date: comment.updatedAt}) }</p>
-                                                                )}
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                </Container>
-                                                <p style={{color: "#AA9D9D", fontSize: "15px"}}>
-                                                    { description }
-                                                </p>
-                                            </CommentContainer>
+                                            <Comment 
+                                                title={comment.title}
+                                                description={comment.description}
+                                                updatedAt={comment.updatedAt}
+                                                id={comment.id}
+                                                postId={comment.postId}
+                                                createdAt={comment.createdAt}
+                                            />
                                         </div>
                                     )}
                                 </div>

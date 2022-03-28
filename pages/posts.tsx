@@ -1,57 +1,26 @@
-import React from 'react';
-import { FC } from 'react';
+// ******************************************************
+// posts.tsx renders pages of blog posts of max-length: 5 
+// ******************************************************
 
+import React, { FC } from 'react';
 import Head from 'next/head'
-import { useQuery, UseQueryResult } from 'react-query'
+import { useQuery } from 'react-query'
 
+// Importing react-bootstrap as design-kit
 import Pagination from 'react-bootstrap/Pagination';
+import Spinner from 'react-bootstrap/Spinner';
 
+// Importing application styles, components, and interfaces
 import styles from '../styles/Home.module.css'
 import Post from '../components/post';
 import { IPost } from '../libs/interfaces/IPost';
-import { Spinner } from 'react-bootstrap';
 
-type PostArray = {
-    posts: IPost[]
-}
+// Importing async function that fetches and returns posts
+import { getPosts } from '../libs/apiLib';
 
-// type PagedPostArray = {
-//     items: IPost[][]
+// type PostArray = {
+//     posts: IPost[]
 // }
-
-async function getPosts() {
-    const response = await fetch('https://6144e843411c860017d256f0.mockapi.io/api/v1/posts');
-    if (!response.ok) {
-        throw new Error("Problem fetching data");
-    }
-    const posts = await response.json();
-    
-    // Sorting results by date (descending)
-    posts.sort(function(a: IPost, b: IPost){
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    });
-    // var pagedPostArray = [];
-    // var pageSize = 5;
-
-    // for (var i = 0; i < posts.length; i+pageSize) {
-    //     var postArrayItem = posts.splice(i, i+pageSize);
-    //     pagedPostArray.push(postArrayItem);
-    // }
-
-    // console.log(pagedPostArray);
-
-    // ************* Making sure type is correct 
-    // assertIsCharacter(character);
-
-    return posts;
-    // return pagedPostArray;
-}
-
-// function assertIsPost(character: any): asserts character is Character {
-//     if (!("name" in character)) {
-//       throw new Error("Not character");
-//     }
-//   }
 
 const PostsPage: FC = () => {
 
